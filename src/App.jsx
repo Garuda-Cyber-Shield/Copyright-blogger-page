@@ -44,17 +44,19 @@ function App() {
   const [siteData, setSiteData] = useState(() => {
     try {
       const cached = localStorage.getItem('siteConfigCache');
-      // Merge cached with config to ensure new config keys aren't lost
-      if (cached) return { ...config, ...JSON.parse(cached) };
+      // Use precisely the cache if it exists, don't mix in config defaults
+      if (cached) return JSON.parse(cached);
     } catch(e) {}
+    
+    // Start completely empty to absolutely avoid any "glimpse" of dummy data
     return {
       captionText: "",
-      mediaUrl: config.mediaPath,
-      category: config.category,
-      heading: config.heading,
-      authorName: config.authorName,
-      commentCount: config.commentCount,
-      postedDate: config.postedDate
+      mediaUrl: "",
+      category: "",
+      heading: "",
+      authorName: "",
+      commentCount: "",
+      postedDate: ""
     };
   });
   const [relativeDate, setRelativeDate] = useState("");
